@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subjects")
+@CrossOrigin
 public class SubjectController {
 
 	@Autowired
 	private SubjectRepository subjectRepository;
 
-	@GetMapping("/list")
+	@GetMapping("/subjects")
 	public List<Subject> getAllSubject() {
 		return subjectRepository.findAll();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/subjects/{id}")
 	public ResponseEntity<Subject> getSubjectById(@PathVariable Long id) {
 		Optional<Subject> subjectOptional = subjectRepository.findById(id);
 		if (subjectOptional.isPresent()) {
@@ -31,12 +31,12 @@ public class SubjectController {
 		}
 	}
 
-	@PostMapping("/create")
+	@PostMapping("/subjects")
 	public Subject createSubject(@RequestBody Subject subject) {
 		return subjectRepository.save(subject);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/subjects/{id}")
 	public ResponseEntity<Subject> updateMonHoc(@PathVariable Long id, @RequestBody Subject subjectDetails) {
 		Optional<Subject> subjectOptional = subjectRepository.findById(id);
 		if (subjectOptional.isPresent()) {
@@ -52,7 +52,7 @@ public class SubjectController {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/subjects/{id}")
 	public ResponseEntity<Void> deleteMonHoc(@PathVariable Long id) {
 		Optional<Subject> subjectOptional = subjectRepository.findById(id);
 		if (subjectOptional.isPresent()) {

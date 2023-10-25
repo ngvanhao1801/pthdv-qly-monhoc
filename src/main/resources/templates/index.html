@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject Rest API</title>
+</head>
+<body>
+<div class="container">
+    <h1>Subject List</h1>
+    <ul id="subject-list">
+        <!--Danh sách sản phẩm được thêm vào bằng JavaScript -->
+    </ul>
+</div>
+
+<script>
+    //Sử dng JavaScript để gọi API và hiển thị dữ liệu
+    fetch('http://localhost:8080/subjects', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const subjectList = document.getElementById('subject-list');
+            data.forEach(subject => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+              <strong>ID:</strong> ${subject.id}<br>
+              <strong>Mã Môn Học:</strong> ${subject.maMonHoc}<br>
+              <strong>Tên Môn Học:</strong> ${subject.tenMonHoc}<br>
+              <strong>Loại Môn Học:</strong> ${subject.loaiMonHoc}<br>
+              <strong>Kỳ Giảng Dạy:</strong> ${subject.kyGiangDay}<br>
+        `;
+                subjectList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error:', error))
+</script>
+</body>
+</html>

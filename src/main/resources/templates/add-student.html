@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject Rest API</title>
+</head>
+<body>
+<h1>Add New Subject</h1>
+<form id="subject-form">
+    <label for="subject-maMonHoc">Mã Môn Học:</label>
+    <input type="text" id="subject-maMonHoc" placeholder="Nhập mã môn học" required>
+
+    <label for="subject-tenMonHoc">Tên Môn Học</label>
+    <input type="text" id="subject-tenMonHoc" placeholder="Nhập tên môn học" required>
+
+    <label for="subject-loaiMonHoc">Loại Môn Học</label>
+    <input type="text" id="subject-loaiMonHoc" placeholder="Nhập loại môn học" required>
+
+    <label for="subject-kyGiangDay">Kỳ Giảng Dạy</label>
+    <input type="text" id="subject-kyGiangDay" placeholder="Nhập kỳ giảng dạy" required>
+
+    <button type="submit">Add Subject</button>
+</form>
+
+<script>
+    const subjectForm = document.getElementById('subject-form');
+
+    subjectForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const subjectMaMonHoc = document.getElementById('subject-maMonHoc').value;
+        const subjectTenMonHoc = document.getElementById('subject-tenMonHoc').value;
+        const subjectLoaiMonHoc = document.getElementById('subject-loaiMonHoc').value;
+        const subjectKyGiangDay = document.getElementById('subject-kyGiangDay').value;
+
+        const newSubject = {
+            maMonHoc: subjectMaMonHoc,
+            tenMonHoc: subjectTenMonHoc,
+            loaiMonHoc: subjectLoaiMonHoc,
+            kyGiangDay: subjectKyGiangDay
+        };
+
+        fetch('http://localhost:8080/subjects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newSubject)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add subject');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Subject added successfully');
+                window.location.href = "index.html";
+            })
+            .catch(error => {
+                console.error('Error', error);
+                alert('Failed to add subject');
+            });
+    });
+</script>
+</body>
+</html>
