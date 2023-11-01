@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">Update Subject</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <div class="card-body">
+                <form id="student-form">
+                    <div class="form-group">
+                        <label for="subject-id">Subject ID: </label>
+                        <input type="number" id="subject-id"
+                               class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-maMonHoc">Mã Môn Học:</label>
+                        <input type="text" id="subject-maMonHoc" placeholder="Nhập mã môn học"
+                               class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-tenMonHoc">Tên Môn Học</label>
+                        <input type="text" id="subject-tenMonHoc" placeholder="Nhập tên môn học"
+                               class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-loaiMonHoc">Loại Môn Học</label>
+                        <input type="text" id="subject-loaiMonHoc" placeholder="Nhập loại môn học"
+                               class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-kyGiangDay">Kỳ Giảng Dạy</label>
+                        <input type="text" id="subject-kyGiangDay" placeholder="Nhập kỳ giảng dạy"
+                               class="form-control" required>
+                    </div>
+                    <div class="box-footer" style="text-align: center">
+                        <button type="submit" class="btn btn-primary">
+                            Update Subject
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const subjectForm = document.getElementById('subject-form');
+    subjectForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const subjectId = document.getElementById(`subject-id`).value;
+        const subjectMaMonHoc = document.getElementById('subject-maMonHoc').value;
+        const subjectTenMonHoc = document.getElementById('subject-tenMonHoc').value;
+        const subjectLoaiMonHoc = document.getElementById('subject-loaiMonHoc').value;
+        const subjectKyGiangDay = document.getElementById('subject-kyGiangDay').value;
+
+        const updateSubject = {
+            id: parseInt(subjectId),
+            maMonHoc: subjectMaMonHoc,
+            tenMonHoc: subjectTenMonHoc,
+            loaiMonHoc: subjectLoaiMonHoc,
+            kyGiangDay: subjectKyGiangDay
+        };
+        fetch(`http://localhost:8080/subjects/${subjectId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateSubject)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update subject');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Subject updated successfully');
+                window.location.href = "index.html";
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+                alert('Failed to update subject');
+            });
+    });
+</script>
+</body>
+</html>
